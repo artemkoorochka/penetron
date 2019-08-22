@@ -1,7 +1,7 @@
 <?
 /*
 CModule::AddAutoloadClasses('iblock', array(
-    'Matrix\Iblock' => 'lib/iblock.php'
+    'Matrix\Mail' => 'lib/mail.php'
 ));
 */
 ?>
