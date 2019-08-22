@@ -1,7 +1,6 @@
 <?
-/*
 CModule::AddAutoloadClasses('iblock', array(
-    'Matrix\Iblock' => 'lib/iblock.php'
+    'Matrix\Iblock\IblockTable' => 'lib/iblock.php',
+    'Matrix\Iblock\ElementTable' => 'lib/element.php',
 ));
-*/
 ?>
