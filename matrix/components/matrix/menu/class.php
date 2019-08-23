@@ -2,16 +2,21 @@
 
 class CMatrixMenuComponent extends CMatrixComponent
 {
+    private $_currentDir;
+    private $_items;
+
+
+    // <editor-fold defaultstate="collapsed" desc=" # Prepare params">
     /**
      * @param $arParams
      * @return mixed
      */
-	public function onPrepareComponentParams($arParams)
-	{
-		$arParams["CACHE_TYPE"] = $arParams["MENU_CACHE_TYPE"];
-		$arParams["CACHE_TIME"] = $arParams["MENU_CACHE_TIME"];
+    public function onPrepareComponentParams($arParams)
+    {
+        $arParams["CACHE_TYPE"] = $arParams["MENU_CACHE_TYPE"];
+        $arParams["CACHE_TIME"] = $arParams["MENU_CACHE_TIME"];
 
-		//Menu depth level
+        //Menu depth level
         if (isset($arParams["MAX_LEVEL"]) && 1 < intval($arParams["MAX_LEVEL"]) && intval($arParams["MAX_LEVEL"]) < 5)
             $arParams["MAX_LEVEL"] = intval($arParams["MAX_LEVEL"]);
         else
@@ -40,72 +45,20 @@ class CMatrixMenuComponent extends CMatrixComponent
         //Find current menu item in RecalcMenu(). Cach ID depends on this parameter too
         $arParams["CACHE_SELECTED_ITEMS"] = ($arParams["CACHE_SELECTED_ITEMS"] <> "N" && $arParams["CACHE_SELECTED_ITEMS"] !== false);
 
-		return $arParams;
-	}
+        return $arParams;
+    }
+    // </editor-fold>
 
-    /**
-     * @param $dir
-     * @param $type
-     * @return mixed
-     * Тут мы получаем массив пунктов меню через инклуд файла меню
-     */
-	public function requireItems($dir, $type){
-        $aMenuLinks = array();
-        $file = $_SERVER["DOCUMENT_ROOT"] . $dir . "." . $type . ".menu.php";
-        if(file_exists($file)){
-            require_once $file;
-        }
-	    return $aMenuLinks;
+
+    // <editor-fold defaultstate="collapsed" desc=" # Menu items">
+
+    public function requireItems(){
+
     }
 
-    /**
-     * @return array
-     * Тут мы обрабатываем массив пунктов меню
-     */
-	public function getItems(){
-        $links = array();
-        $aMenuLinks = $this->requireItems($this->arParams["CURRENT_DIR"], $this->arParams["ROOT_MENU_TYPE"]);
-        if(!empty($aMenuLinks)){
-            $i = 0;
-            foreach ($aMenuLinks as $link){
-                $links[$i] = array(
-                    "TEXT" => $link[0],
-                    "LINK" => $link[1],
-                    "DEPTH_LEVEL" => "1"
-                );
-                if(!empty($link[3]))
-                {
-                    $links[$i]["PARAMS"] = $link[3];
-                }
-                if($this->arParams["MAX_LEVEL"] > 1){
-                    $subMenuLinks = $this->requireItems($link[1], $this->arParams["CHILD_MENU_TYPE"]);
-                    if(!empty($subMenuLinks)){
-                        $links[$i]["IS_PARENT"] = true;
-                        foreach ($subMenuLinks as $link){
-                            $i++;
-                            $links[$i] = array(
-                                "TEXT" => $link[0],
-                                "LINK" => $link[1],
-                                "DEPTH_LEVEL" => "2",
-                                "IS_PARENT" => false
-                            );
-                            if(!empty($link[3]))
-                            {
-                                $links[$i]["PARAMS"] = $link[3];
-                            }
-                        }
-                    }
-                }
-                $i++;
-            }
-        }
+    // </editor-fold>
 
-        return $links;
-    }
-
-    /**
-     * Execution
-     */
+    // <editor-fold defaultstate="collapsed" desc=" # Execution component">
     public function executeComponent()
     {
 
@@ -114,7 +67,7 @@ class CMatrixMenuComponent extends CMatrixComponent
          */
         if($this->startResultCache(false))
         {
-            $this->arResult = $this->getItems();
+            // cached work of some methods
             $this->endResultCache();
         }
 
@@ -122,4 +75,5 @@ class CMatrixMenuComponent extends CMatrixComponent
 
         $this->IncludeComponentTemplate();
     }
+    // </editor-fold>
 }
