@@ -57,6 +57,22 @@ class CMatrixMenuComponent extends CMatrixComponent
     // <editor-fold defaultstate="collapsed" desc=" # Menu items">
 
     /**
+     * @return mixed
+     */
+    public function getItems()
+    {
+        return $this->_items;
+    }
+
+    /**
+     * @param mixed $items
+     */
+    public function setItems($items)
+    {
+        $this->_items = $items;
+    }
+
+    /**
      * @param $path
      * @param $type
      * @return string
@@ -101,12 +117,15 @@ class CMatrixMenuComponent extends CMatrixComponent
 
     /**
      * @param $type
-     * @return mixed
+     * @param bool $from
+     * @return array
      * @throws \Matrix\Main\SystemException
      */
-    public function getMenuFile($type){
+    public function getMenuFile($type, $from=false){
         $to = Application::getDocumentRoot();
-        $from = dirname(Application::getInstance()->getContext()->getServer()->getPhpSelf());
+        if(empty($from)){
+            $from = dirname(Application::getInstance()->getContext()->getServer()->getPhpSelf());
+        }
         $from = $to . $from;
         $file = $this->formateMenuFile($from, $type);
 
@@ -116,9 +135,15 @@ class CMatrixMenuComponent extends CMatrixComponent
     }
 
     public function requireItems(){
+        # get root menu file items
+        $this->setItems($this->getMenuFile($this->arParams["ROOT_MENU_TYPE"]));
 
-        $aMenuLinks = $this->getMenuFile($this->arParams["ROOT_MENU_TYPE"]);
-
+        # Set submenu to root menu
+        if($this->arParams["MAX_LEVEL"] > 1){
+            foreach ($this->getItems() as $key=>$item){
+                $this->_items[$key][] = $this->getMenuFile($this->arParams["CHILD_MENU_TYPE"], $item[1]);
+            }
+        }
     }
 
 
