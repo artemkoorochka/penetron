@@ -1,5 +1,6 @@
 <?
-use Matrix\Main\Application;
+use Matrix\Main\Application,
+    Matrix\Main\IO\File;
 
 if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
@@ -55,31 +56,68 @@ class CMatrixMenuComponent extends CMatrixComponent
 
     // <editor-fold defaultstate="collapsed" desc=" # Menu items">
 
+    /**
+     * @param $path
+     * @param $type
+     * @return string
+     */
+    public function formateMenuFile($path, $type){
+        return $path . "/." . $type . ".menu.php";
+    }
+
+    /**
+     * @param $file
+     * @param $from
+     * @param $type
+     * @param $to
+     * @return array
+     */
+    public function requireRecursive($file, $from, $type, $to){
+        $aMenuLinks = array();
+
+        // Get menu file by existins way
+        if($from == $to){
+            $file = $this->formateMenuFile($to, $type);
+            if(File::isFileExists($file)){
+                require_once $file;
+            }
+        }
+        // Get menu file by recursive way
+        else{
+            if(File::isFileExists($file)){
+                require_once $file;
+            }
+            else{
+                $from = explode("/", $from);
+                array_pop($from);
+                $from = implode("/", $from);
+                $file = $this->formateMenuFile($from, $type);
+                $aMenuLinks = $this->requireRecursive($file, $from, $type, $to);
+            }
+        }
+
+        return $aMenuLinks;
+    }
+
+    /**
+     * @param $type
+     * @return mixed
+     * @throws \Matrix\Main\SystemException
+     */
     public function getMenuFile($type){
-        $to = Application::getInstance()->getContext()->getServer()->getDocumentRoot();
+        $to = Application::getDocumentRoot();
         $from = dirname(Application::getInstance()->getContext()->getServer()->getPhpSelf());
         $from = $to . $from;
-        $file = $from . "/." . $type . ".menu.php";
+        $file = $this->formateMenuFile($from, $type);
 
-        d($from);
-        d($to);
-        d($file);
+        $aMenuLinks = $this->requireRecursive($file, $from, $type, $to);
 
-        if(\Matrix\Main\IO\File::isFileExists($file)){
-            d("Ready to require");
-        }
-        else{
-            d("Recursive to level up");
-        }
-
-
+        return $aMenuLinks;
     }
 
     public function requireItems(){
 
-        $this->getMenuFile($this->arParams["ROOT_MENU_TYPE"]);
-
-
+        $aMenuLinks = $this->getMenuFile($this->arParams["ROOT_MENU_TYPE"]);
 
     }
 
