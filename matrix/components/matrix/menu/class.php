@@ -1,4 +1,7 @@
-<?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
+<?
+use Matrix\Main\Application;
+
+if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 class CMatrixMenuComponent extends CMatrixComponent
 {
@@ -52,9 +55,35 @@ class CMatrixMenuComponent extends CMatrixComponent
 
     // <editor-fold defaultstate="collapsed" desc=" # Menu items">
 
-    public function requireItems(){
+    public function getMenuFile($type){
+        $to = Application::getInstance()->getContext()->getServer()->getDocumentRoot();
+        $from = dirname(Application::getInstance()->getContext()->getServer()->getPhpSelf());
+        $from = $to . $from;
+        $file = $from . "/." . $type . ".menu.php";
+
+        d($from);
+        d($to);
+        d($file);
+
+        if(\Matrix\Main\IO\File::isFileExists($file)){
+            d("Ready to require");
+        }
+        else{
+            d("Recursive to level up");
+        }
+
 
     }
+
+    public function requireItems(){
+
+        $this->getMenuFile($this->arParams["ROOT_MENU_TYPE"]);
+
+
+
+    }
+
+
 
     // </editor-fold>
 
@@ -71,7 +100,7 @@ class CMatrixMenuComponent extends CMatrixComponent
             $this->endResultCache();
         }
 
-
+        $this->requireItems();
 
         $this->IncludeComponentTemplate();
     }
