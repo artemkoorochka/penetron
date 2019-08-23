@@ -134,6 +134,9 @@ class CMatrixMenuComponent extends CMatrixComponent
         return $aMenuLinks;
     }
 
+    /**
+     * @throws \Matrix\Main\SystemException
+     */
     public function requireItems(){
         # get root menu file items
         $this->setItems($this->getMenuFile($this->arParams["ROOT_MENU_TYPE"]));
@@ -145,8 +148,6 @@ class CMatrixMenuComponent extends CMatrixComponent
             }
         }
     }
-
-
 
     // </editor-fold>
 
