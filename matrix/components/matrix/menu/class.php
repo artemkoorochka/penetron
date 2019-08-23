@@ -6,9 +6,7 @@ if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 class CMatrixMenuComponent extends CMatrixComponent
 {
-    private $_currentDir;
     private $_items;
-
 
     // <editor-fold defaultstate="collapsed" desc=" # Prepare params">
     /**
@@ -53,7 +51,6 @@ class CMatrixMenuComponent extends CMatrixComponent
     }
     // </editor-fold>
 
-
     // <editor-fold defaultstate="collapsed" desc=" # Menu items">
 
     /**
@@ -78,7 +75,18 @@ class CMatrixMenuComponent extends CMatrixComponent
      * @return string
      */
     public function formateMenuFile($path, $type){
-        return $path . "/." . $type . ".menu.php";
+
+        if($this->arParams["USE_EXT"] == "Y"){
+            $file = $path . "/." . $type . ".menu_ext.php";
+            if(!File::isFileExists($file)){
+                $file = $path . "/." . $type . ".menu.php";
+            }
+
+        }else{
+            $file = $path . "/." . $type . ".menu.php";
+        }
+
+        return $file;
     }
 
     /**
@@ -135,6 +143,7 @@ class CMatrixMenuComponent extends CMatrixComponent
     }
 
     /**
+     * In this mathod accord set items from a file system
      * @throws \Matrix\Main\SystemException
      */
     public function requireItems(){
@@ -154,17 +163,17 @@ class CMatrixMenuComponent extends CMatrixComponent
     // <editor-fold defaultstate="collapsed" desc=" # Execution component">
     public function executeComponent()
     {
-
         /**
          * start work with cache
          */
         if($this->startResultCache(false))
         {
+            $this->requireItems();
             // cached work of some methods
             $this->endResultCache();
         }
 
-        $this->requireItems();
+        $this->arResult = $this->getItems();
 
         $this->IncludeComponentTemplate();
     }
