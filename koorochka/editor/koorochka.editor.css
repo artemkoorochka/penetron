@@ -1,0 +1,8 @@
+.septic-editor{
+    width: 100%;
+}
+.septic-editor-wrapper{
+    border: 1px solid #0e3f82;
+    padding: 10px;
+    min-height: 100px;
+}
