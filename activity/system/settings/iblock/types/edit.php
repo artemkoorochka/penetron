@@ -18,12 +18,13 @@ $arParams = array(
     "MAP" => TypeTable::getMap()
 );
 
-unset($arParams["MAP"]["ID"]);
-
 $arResult = array(
     "DB" => false,
     "ITEMS" => false
 );
+
+d($arParams["MAP"]);
+
 ?>
 
     <div class="alert alert-dark">
@@ -35,15 +36,36 @@ $arResult = array(
             <div class="card-title">Edit Iblock parameters</div>
         </div>
         <div class="card-body">
-            <?foreach ($arParams["MAP"] as $arField):?>
-                <div class="form-group row">
-                    <label for="colFormLabel"
-                           class="col-sm-2 col-form-label"><?=$arField["title"]?></label>
-                    <div class="col-sm-10">
-                        <?d($arField)?>
-                    </div>
-                </div>
-            <?endforeach;?>
+            <?
+            foreach ($arParams["MAP"] as $code=>$arField){
+                switch ($code){
+                    case "SECTIONS":
+
+                        
+                    case "EDIT_FILE_BEFORE":
+                    case "EDIT_FILE_AFTER":
+                    case "IN_RSS":
+                        d($arField);
+
+                        break;
+                    ?>
+
+                    <?
+                    default:
+                    ?>
+                        <div class="form-group row">
+                            <label for="colFormLabel"
+                                   class="col-sm-2 col-form-label"><?=$arField["title"]?></label>
+                            <div class="col-sm-10">
+                                <input type="text"
+                                       class="form-control"
+                                       name="<?=$code?>">
+                            </div>
+                        </div>
+                <?
+                }
+            }
+            ?>
         </div>
         <div class="card-footer">
             footer
