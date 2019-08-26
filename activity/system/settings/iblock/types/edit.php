@@ -39,18 +39,24 @@ d($arParams["MAP"]);
             <?
             foreach ($arParams["MAP"] as $code=>$arField){
                 switch ($code){
-                    case "SECTIONS":
-
-                        
+                    // not need to administrate
                     case "EDIT_FILE_BEFORE":
                     case "EDIT_FILE_AFTER":
                     case "IN_RSS":
-                        d($arField);
-
                         break;
+                    case "SECTIONS":
                     ?>
-
+                        <div class="form-group row">
+                            <label for="colFormLabel"
+                                   class="col-sm-2 col-form-label"><?=$arField["title"]?></label>
+                            <div class="col-sm-10">
+                                <input type="checkbox"
+                                       name="edit-<?=$code?>"
+                                       value="Y" />
+                            </div>
+                        </div>
                     <?
+                        break;
                     default:
                     ?>
                         <div class="form-group row">
@@ -59,7 +65,7 @@ d($arParams["MAP"]);
                             <div class="col-sm-10">
                                 <input type="text"
                                        class="form-control"
-                                       name="<?=$code?>">
+                                       name="edit-<?=$code?>">
                             </div>
                         </div>
                 <?
