@@ -14,7 +14,7 @@ $arResult = array(
     "ITEMS" => false
 );
 
-$arResult["DB"] = $DB->Query("select ID, NAME FROM b_user");
+$arResult["DB"] = $DB->Query("SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='dbName'");
 
 while ($user = $arResult["DB"]->Fetch())
 {
