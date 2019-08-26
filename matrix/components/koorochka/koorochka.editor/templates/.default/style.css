@@ -1,8 +1,11 @@
-.septic-editor{
+.koorochka-editor{
     width: 100%;
 }
-.septic-editor-wrapper{
+.koorochka-editor-wrapper{
     border: 1px solid #0e3f82;
     padding: 10px;
     min-height: 100px;
 }
+/**
+  * TODO Stylish focus
+  */

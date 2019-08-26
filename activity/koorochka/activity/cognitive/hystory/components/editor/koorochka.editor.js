@@ -32,6 +32,10 @@ KoorochkaEditor.prototype.getEditor = function(){
 KoorochkaEditor.prototype.click = function(item, code){
     this.editor.focus();
 
+    /**
+     * https://developer.mozilla.org/ru/docs/Web/API/Document/execCommand
+     *
+     */
     switch (code) {
         case "b":
             document.execCommand("bold", false, null);
@@ -63,15 +67,38 @@ KoorochkaEditor.prototype.click = function(item, code){
         case "underline":
             document.execCommand("underline", false, item.value);
             break;
+        case "out":
+            document.execCommand("insertBrOnReturn", false, null);
+            break;
+        // formatBlock
         case "blockquote":
             document.execCommand("formatBlock", false, "blockquote");
             break;
-        case "out":
-            document.execCommand("insertBrOnReturn", false, null);
+        case "h1":
+            document.execCommand("formatBlock", false, "h1");
+            break;
+        case "h2":
+            document.execCommand("formatBlock", false, "h2");
+            break;
+        case "h3":
+            document.execCommand("formatBlock", false, "h3");
+            break;
+        case "h4":
+            document.execCommand("formatBlock", false, "h4");
+            break;
+        case "h5":
+            document.execCommand("formatBlock", false, "h5");
+            break;
+        case "h6":
+            document.execCommand("formatBlock", false, "h6");
             break;
     }
 
 };
+
+/**
+ * TODO set modal object for set file
+ */
 
 /**
  * Debug tools

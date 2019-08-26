@@ -1,0 +1,1 @@
+var testEditor = new KoorochkaEditor("koorochka-editor");
