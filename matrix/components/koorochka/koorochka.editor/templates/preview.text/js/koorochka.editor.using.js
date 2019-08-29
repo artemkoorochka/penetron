@@ -1,0 +1,1 @@
+window.testEditor=new KoorochkaEditor("detail-text");

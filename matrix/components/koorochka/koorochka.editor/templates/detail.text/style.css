@@ -1,0 +1,11 @@
+.koorochka-editor{
+    width: 100%;
+}
+.koorochka-editor-wrapper{
+    border: 1px solid #0e3f82;
+    padding: 10px;
+    min-height: 400px;
+}
+/**
+  * TODO Stylish focus
+  */
