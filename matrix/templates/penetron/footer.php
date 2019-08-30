@@ -17,7 +17,6 @@ Loc::loadLanguageFile(__FILE__);
                 </h3>
                 <div class="row">
                     <div class="col-xs-12 col-md-6">
-
                         <?$APPLICATION->IncludeComponent("matrix:feedback.form", "", array(
                             "ACTION" => $APPLICATION->GetCurPage(false),
                             "FIELDS" => array(
@@ -27,7 +26,6 @@ Loc::loadLanguageFile(__FILE__);
                                 "TEXT"
                             )
                         ))?>
-
                     </div>
                     <div class="col-xs-12 col-md-6">
                         <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2540.255056690442!2d30.646982315393522!3d50.454974979476006!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTDCsDI3JzE3LjkiTiAzMMKwMzgnNTcuMCJF!5e0!3m2!1suk!2sua!4v1476261227252" style="width:100%;height:450px;border:0" allowfullscreen>
